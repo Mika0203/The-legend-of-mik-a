@@ -1,24 +1,71 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
+import Canvas from './Canvas';
+import { Coordinates, Direction, PlayerData } from './lib';
+import './style.css';
+
 
 function App() {
+  const [playerData, setPlayerData] = useState<PlayerData>({
+    position : {
+      x : 10,
+      y : 10
+    },
+    direction : Direction.DOWN
+  });
+
+
+  useEffect(() => {
+    const onKeyPress = (ev: KeyboardEvent): void => {
+      switch (ev.key) {
+        case 'ArrowUp':
+          setPlayerData(e => ({
+            direction : Direction.UP,
+            position : { 
+              x: e.position.x, 
+              y: e.position.y - 1 
+            }
+          }))
+          break;
+        case 'ArrowDown':
+          setPlayerData(e => ({
+            direction : Direction.DOWN,
+            position : { 
+              x: e.position.x, 
+              y: e.position.y + 1 
+            }
+          }))
+          break;
+        case 'ArrowRight':
+          setPlayerData(e => ({
+            direction : Direction.RIGHT,
+            position : { 
+              x: e.position.x + 1, 
+              y: e.position.y 
+            }
+          }))
+          break;
+        case 'ArrowLeft':
+          setPlayerData(e => ({
+            direction : Direction.LEFT,
+            position : { 
+              x: e.position.x - 1, 
+              y: e.position.y 
+            }
+          }))
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', onKeyPress);
+    return () => {
+      window.removeEventListener('keydown', onKeyPress);
+    }
+
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Canvas playerData={playerData} />
     </div>
   );
 }
