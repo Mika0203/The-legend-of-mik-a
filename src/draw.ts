@@ -1,13 +1,11 @@
 import { Coordinates, Direction, Size } from "./lib";
 import link from './imgs/link.png';
-import { Context } from "vm";
-
+import map from './imgs/map.png';
 interface drawProps {
     context : CanvasRenderingContext2D,
     coordinates : Coordinates,
     size : Size
 }
-
 interface drawLink {
     context : CanvasRenderingContext2D,
     coordinates : Coordinates,
@@ -20,7 +18,6 @@ export function drawLink(props : drawLink){
     img.src = link;
     img.onload = () => {
         console.log(props.size.width, props.direction)
-        clear(props.context);
         props.context.drawImage(img, 
         1.5 + 17 * props.direction, 38.3, 15, 15, 
         props.coordinates.x * props.size.width, 
@@ -30,9 +27,9 @@ export function drawLink(props : drawLink){
     }
 }
 
-export function draw(props : drawProps){
+export function drawMap(props : drawProps){
     const img = new Image();
-    img.src = link;
+    img.src = map;
     img.onload = () => {
         props.context.drawImage(img, 
             1.5, 38.3, 15, 15, 
@@ -40,7 +37,7 @@ export function draw(props : drawProps){
     }
 }
 
-function clear(context : CanvasRenderingContext2D) {
+export function clearCanvas(context : CanvasRenderingContext2D, position : Coordinates) {
     context.fillStyle = 'white';
-    context.fillRect(0,0, 1920,1080);
+    context.fillRect(position.x * 40 , position.y * 40, 40, 40);
 }
