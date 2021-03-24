@@ -58,5 +58,5 @@ const drawTile = (
     img: HTMLImageElement,
     tx: number, ty: number,
     dx: number, dy: number) => {
-    context.drawImage(img, tx * 17.5 + 1, ty * 17 + 1.3, 15, 15, dx * tilesize, dy * tilesize, tilesize, tilesize);
+    context.drawImage(img, tx * 17 + 1.4, ty * 17 + 1.3, 15, 15, dx * tilesize, dy * tilesize, tilesize, tilesize);
 }

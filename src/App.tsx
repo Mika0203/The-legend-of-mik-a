@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Canvas from './Canvas';
 import { Coordinates, Direction, PlayerData } from './lib';
 import './style.css';
-
+import {mapData} from './MapData';
 
 function App() {
   const [playerData, setPlayerData] = useState<PlayerData>({
@@ -16,44 +16,51 @@ function App() {
 
   useEffect(() => {
     const onKeyPress = (ev: KeyboardEvent): void => {
-      switch (ev.key) {
-        case 'ArrowUp':
-          setPlayerData(e => ({
-            direction : Direction.UP,
-            position : { 
-              x: e.position.x, 
-              y: e.position.y - 1 
+      setPlayerData(e => {
+        let newPosition = e.position;
+        let newDirection = e.direction;
+
+        switch (ev.key) {
+          case 'ArrowUp':
+            newDirection = Direction.UP;
+            newPosition = {
+              x : newPosition.x,
+              y : newPosition.y - 1
             }
-          }))
-          break;
-        case 'ArrowDown':
-          setPlayerData(e => ({
-            direction : Direction.DOWN,
-            position : { 
-              x: e.position.x, 
-              y: e.position.y + 1 
+            break;
+          case 'ArrowDown':
+            newDirection = Direction.DOWN;
+            newPosition = {
+              x : newPosition.x,
+              y : newPosition.y + 1
             }
-          }))
-          break;
-        case 'ArrowRight':
-          setPlayerData(e => ({
-            direction : Direction.RIGHT,
-            position : { 
-              x: e.position.x + 1, 
-              y: e.position.y 
+            break;
+          case 'ArrowRight':
+            newDirection = Direction.RIGHT;
+            newPosition = {
+              x : newPosition.x + 1,
+              y : newPosition.y
             }
-          }))
-          break;
-        case 'ArrowLeft':
-          setPlayerData(e => ({
-            direction : Direction.LEFT,
-            position : { 
-              x: e.position.x - 1, 
-              y: e.position.y 
+            break;
+          case 'ArrowLeft':
+            newDirection = Direction.LEFT;
+            newPosition = {
+              x : newPosition.x - 1,
+              y : newPosition.y
             }
-          }))
-          break;
-      }
+            break;
+        }
+
+        const isobs = mapData[newPosition.y][newPosition.x][2] === 1;
+        return isobs ? {
+          ...e,
+          direction : newDirection
+        } : {
+          direction : newDirection,
+          position : newPosition
+        };
+      });
+      
     };
 
     window.addEventListener('keydown', onKeyPress);
