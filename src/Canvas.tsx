@@ -46,7 +46,7 @@ export default function Canvas(props: CanvasProps) {
             drawMap({
                 context: context,
                 coordinates: {
-                    x: 10,
+                    x: 50,
                     y: 10
                 },
                 size: {
