@@ -25,33 +25,33 @@ function App() {
             newDirection = Direction.UP;
             newPosition = {
               x : newPosition.x,
-              y : newPosition.y - 1
+              y : newPosition.y - 0.5
             }
             break;
           case 'ArrowDown':
             newDirection = Direction.DOWN;
             newPosition = {
               x : newPosition.x,
-              y : newPosition.y + 1
+              y : newPosition.y + 0.5
             }
             break;
           case 'ArrowRight':
             newDirection = Direction.RIGHT;
             newPosition = {
-              x : newPosition.x + 1,
+              x : newPosition.x + 0.5,
               y : newPosition.y
             }
             break;
           case 'ArrowLeft':
             newDirection = Direction.LEFT;
             newPosition = {
-              x : newPosition.x - 1,
+              x : newPosition.x - 0.5,
               y : newPosition.y
             }
             break;
         }
 
-        const isobs = mapData[newPosition.y][newPosition.x][2] === 1;
+        const isobs = mapData[Math.round(newPosition.y)][Math.round(newPosition.x)][2] === 1;
         return isobs ? {
           ...e,
           direction : newDirection

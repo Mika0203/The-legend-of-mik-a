@@ -4,8 +4,6 @@ import link from './imgs/link.png';
 import map from './imgs/map.png';
 interface drawProps {
     context: CanvasRenderingContext2D,
-    coordinates: Coordinates,
-    size: Size
 }
 interface drawLink {
     context: CanvasRenderingContext2D,
@@ -21,8 +19,9 @@ export function drawLink(props: drawLink) {
     const img = new Image();
     img.src = link;
     img.onload = () => {
+        props.context.clearRect(0,0,1920,1080);
         props.context.drawImage(img,
-            1.5 + 17 * props.direction, 38.3, 15, 15,
+            4 + 24 * (props.direction + 1), 10, 18, 18,
             props.coordinates.x * props.size.width,
             props.coordinates.y * props.size.heigth,
             props.size.width,
@@ -44,13 +43,10 @@ export function drawMap(props: drawProps) {
 
 export function clearCanvas(context: CanvasRenderingContext2D, position: Coordinates) {
     context.fillStyle = 'white';
-    const img = new Image();
-    img.src = map;
-    img.onload = () => {
-        drawTile(context, img, 
-            mapData[position.y][position.x][0], 
-            mapData[position.y][position.x][1], position.x, position.y);
-    }
+    context.clearRect(
+        position.x * tilesize, position.y * tilesize,
+        tilesize,tilesize);
+    console.log('clear rect')
 }
 
 const drawTile = (
@@ -58,5 +54,9 @@ const drawTile = (
     img: HTMLImageElement,
     tx: number, ty: number,
     dx: number, dy: number) => {
-    context.drawImage(img, tx * 17 + 1.4, ty * 17 + 1.3, 15, 15, dx * tilesize, dy * tilesize, tilesize, tilesize);
+    context.drawImage(img, 
+        tx * 17 + 1.4, 
+        ty * 17 + 1.4, 15, 15, 
+        dx * tilesize, dy * tilesize, 
+        tilesize, tilesize);
 }

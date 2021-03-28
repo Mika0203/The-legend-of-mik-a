@@ -14,9 +14,9 @@ export interface PlayerData {
 }
 
 export enum Direction {
+    RIGHT,
     DOWN,
     UP,
-    LEFT,
-    RIGHT
+    LEFT
 }
 

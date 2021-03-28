@@ -8,7 +8,7 @@ interface CanvasProps {
 
 export default function Canvas(props: CanvasProps) {
     const canvas = useRef<HTMLCanvasElement>(null);
-    canvas.current?.getContext('2d')
+    const backCanvas = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
         if (!canvas.current) return;
@@ -26,40 +26,29 @@ export default function Canvas(props: CanvasProps) {
             direction: props.playerData.direction
         })
 
-        return () => {
-            if (!canvas.current) return;
-            const context = canvas?.current.getContext('2d');
-            if (!context) return;
-            clearCanvas(context, props.playerData.position);
-        }
+        // return () => {
+        //     if (!canvas.current) return;
+        //     const context = canvas?.current.getContext('2d');
+        //     if (!context) return;
+        //     clearCanvas(context, props.playerData.position);
+        // }
 
     }, [props]);
 
     useEffect(() => {
-        if (canvas.current) {
-            const context = canvas.current.getContext('2d');
+        if (backCanvas.current) {
+            const context = backCanvas.current.getContext('2d');
             if (!context) return;
-
             context.fillStyle = 'white';
             context.fillRect(0, 0, 1920, 1080);
-
-            drawMap({
-                context: context,
-                coordinates: {
-                    x: 50,
-                    y: 10
-                },
-                size: {
-                    heigth: 40,
-                    width: 40
-                }
-            })
+            drawMap({context : context});
         }
     }, []);
 
     return (
         <div className='canvas-wrap'>
-            <canvas width='1920' height='1080' ref={canvas} />
+            <canvas className='character' width='1920' height='1080' ref={canvas} />
+            <canvas className='background' width='1920' height='1080' ref={backCanvas} />
         </div>
     )
 }
